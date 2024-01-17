@@ -37,7 +37,7 @@ class Fl_Window;
 #    include "win32.H"
 #  elif defined(FLTK_USE_WAYLAND)
 #    include "wayland.H"
-#  elif defined(FLTK_USE_X11)
+#  elif defined(FLTK_USE_X11) || defined(__EMSCRIPTEN__)
 #    include "x11.H"
 #  elif defined(__APPLE__)
 #    include "mac.H"

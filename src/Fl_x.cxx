@@ -369,13 +369,13 @@ void Fl_X11_Screen_Driver::new_ic()
 
   preedit_attr = XVaCreateNestedList(0,
                                      XNSpotLocation, &spot,
-                                     XNFontSet, fs, NULL);
+                                     XNFontSet, fs, nullptr);
   status_attr = XVaCreateNestedList(0,
                                     XNAreaNeeded, &status_area,
-                                    XNFontSet, fs, NULL);
+                                    XNFontSet, fs, nullptr);
 
   if (!XGetIMValues(xim_im, XNQueryInputStyle,
-                    &xim_styles, NULL, NULL)) {
+                    &xim_styles, NULL, nullptr)) {
     int i;
     XIMStyle *style;
     for (i = 0, style = xim_styles->supported_styles;
@@ -395,14 +395,14 @@ void Fl_X11_Screen_Driver::new_ic()
                           XNInputStyle, (XIMPreeditPosition | XIMStatusArea),
                           XNPreeditAttributes, preedit_attr,
                           XNStatusAttributes, status_attr,
-                          NULL);
+                          nullptr);
   }
 
   if (!xim_ic && predit) {
     xim_ic = XCreateIC(xim_im,
                           XNInputStyle, (XIMPreeditPosition | XIMStatusNothing),
                           XNPreeditAttributes, preedit_attr,
-                          NULL);
+                          nullptr);
   }
   XFree(preedit_attr);
   XFree(status_attr);
@@ -410,12 +410,12 @@ void Fl_X11_Screen_Driver::new_ic()
     Fl_X11_Screen_Driver::fl_is_over_the_spot = 0;
     xim_ic = XCreateIC(xim_im,
                           XNInputStyle, (XIMPreeditNothing | XIMStatusNothing),
-                          NULL);
+                          nullptr);
   } else {
     Fl_X11_Screen_Driver::fl_is_over_the_spot = 1;
-    status_attr = XVaCreateNestedList(0, XNAreaNeeded, &status_area, NULL);
+    status_attr = XVaCreateNestedList(0, XNAreaNeeded, &status_area, nullptr);
 
-    XGetICValues(xim_ic, XNStatusAttributes, status_attr, NULL);
+    XGetICValues(xim_ic, XNStatusAttributes, status_attr, nullptr);
     XFree(status_attr);
   }
 }
@@ -429,9 +429,9 @@ void Fl_X11_Screen_Driver::set_status(int x, int y, int w, int h)
   status_area.width = w;
   status_area.height = h;
   if (!xim_ic) return;
-  status_attr = XVaCreateNestedList(0, XNArea, &status_area, NULL);
+  status_attr = XVaCreateNestedList(0, XNArea, &status_area, nullptr);
 
-  XSetICValues(xim_ic, XNStatusAttributes, status_attr, NULL);
+  XSetICValues(xim_ic, XNStatusAttributes, status_attr, nullptr);
   XFree(status_attr);
 }
 
@@ -445,13 +445,13 @@ void Fl_X11_Screen_Driver::init_xim() {
   if (!fl_display) return;
   if (xim_im) return;
 
-  xim_im = XOpenIM(fl_display, NULL, NULL, NULL);
+  xim_im = XOpenIM(fl_display, NULL, NULL, nullptr);
   xim_styles = NULL;
   xim_ic = NULL;
 
   if (xim_im) {
     XGetIMValues (xim_im, XNQueryInputStyle,
-                  &xim_styles, NULL, NULL);
+                  &xim_styles, NULL, nullptr);
   } else {
     if (xim_warning)
       Fl::warning("XOpenIM() failed");
@@ -497,11 +497,11 @@ void Fl_X11_Screen_Driver::xim_activate(Window xid) {
     XSetICValues(xim_ic,
                  XNFocusWindow, xim_win,
                  XNClientWindow, xim_win,
-                 NULL);
+                 nullptr);
   }
 
   Fl_X11_Screen_Driver *driver = (Fl_X11_Screen_Driver*)Fl::screen_driver();
-  driver->set_spot(fl_spotf, fl_spots, fl_spot.x, fl_spot.y, fl_spot.width, fl_spot.height, NULL);
+  driver->set_spot(fl_spotf, fl_spots, fl_spot.x, fl_spot.y, fl_spot.width, fl_spot.height, nullptr);
 }
 
 void Fl_X11_Screen_Driver::xim_deactivate(void) {
@@ -1246,7 +1246,7 @@ int fl_handle(const XEvent& thisevent)
         xid != Fl_X11_Screen_Driver::xim_win && !fl_find(xid))
   {
     XIM xim_im;
-    xim_im = XOpenIM(fl_display, NULL, NULL, NULL);
+    xim_im = XOpenIM(fl_display, NULL, NULL, nullptr);
     if (!xim_im) {
       /*  XIM server has crashed */
       XSetLocaleModifiers("");
@@ -1268,7 +1268,7 @@ int fl_handle(const XEvent& thisevent)
   if( XRRUpdateConfiguration_f && xevent.type == randrEventBase + RRScreenChangeNotify) {
     XRRUpdateConfiguration_f(&xevent);
     react_to_screen_reconfiguration();
-    Fl::handle(FL_SCREEN_CONFIGURATION_CHANGED, NULL);
+    Fl::handle(FL_SCREEN_CONFIGURATION_CHANGED, nullptr);
   }
 #endif // USE_XRANDR
 
@@ -2017,7 +2017,7 @@ int fl_handle(const XEvent& thisevent)
 #endif // FLTK_CONSOLIDATE_MOTION
     in_a_window = true;
     { XIMStyles *xim_styles = NULL;
-      if(!Fl_X11_Screen_Driver::xim_im || XGetIMValues(Fl_X11_Screen_Driver::xim_im, XNQueryInputStyle, &xim_styles, NULL, NULL)) {
+      if(!Fl_X11_Screen_Driver::xim_im || XGetIMValues(Fl_X11_Screen_Driver::xim_im, XNQueryInputStyle, &xim_styles, NULL, nullptr)) {
         Fl_X11_Screen_Driver::init_xim();
       }
       if (xim_styles) XFree(xim_styles);
@@ -2173,7 +2173,7 @@ void Fl_X11_Window_Driver::resize(int X,int Y,int W,int H) {
     if (Fl_X11_Screen_Driver::xim_win && Fl::focus()) {
       // Force the Input Method auxiliary window to move too.
       Fl::focus()->handle(FL_FOCUS);
-      fl_set_spot(fl_font(), fl_size(), Fl::focus()->x(), Fl::focus()->y() + fl_size(), Fl::focus()->w(), Fl::focus()->h(), NULL);
+      fl_set_spot(fl_font(), fl_size(), Fl::focus()->x(), Fl::focus()->y() + fl_size(), Fl::focus()->w(), Fl::focus()->h(), nullptr);
     }
   }
 
@@ -2544,7 +2544,7 @@ void Fl_X::make_xid(Fl_Window* win, XVisualInfo *visual, Colormap colormap)
   int showit = 1;
 
   // Set WM_CLIENT_MACHINE and WM_LOCALE_NAME
-  XSetWMProperties(fl_display, xp->xid, NULL, NULL, NULL, 0, NULL, NULL, NULL);
+  XSetWMProperties(fl_display, xp->xid, NULL, NULL, NULL, 0, NULL, NULL, nullptr);
 
   // Set _NET_WM_PID
   long pid;

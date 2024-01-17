@@ -177,6 +177,9 @@
 
 #cmakedefine U16 @U16@
 #cmakedefine U32 @U32@
+#if defined(__EMSCRIPTEN__)
+#define U32 int
+#endif
 #cmakedefine U64 @U64@
 
 /*

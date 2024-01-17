@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if !defined(HAVE_LONG_LONG)
+#if !defined(HAVE_LONG_LONG) && !defined(__EMSCRIPTEN__)
 static double strtoll(const char *str, char **endptr, int base) {
   return (double)strtol(str, endptr, base);
 }
